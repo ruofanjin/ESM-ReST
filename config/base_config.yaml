@@ -1,0 +1,43 @@
+# Base configuration file
+
+# --- Data and Environment ---
+data_path: "/scratch/gpfs/rj3023/guangxue/data/experiments/trpb_task_with_relative_freq_remove_-5.csv"
+wt_seq: "MKGYFGPYGGQYVPEILMPALEELEAAYEEIMKDESFWKEFNDLLRDYAGRPTPLYFARRLSEKYGARIYLKREDLLHTGAHKINNAIGQVLLAKKMGKTRIIAETGAGQHGVATATAAALFGMECVIYMGEEDTIRQKPNVERMKLLGAKVVPVKSGSRTLKDAINEALRDWITNLQTTYYVIGSVVGPHPYPIIVRNFQKVIGEETKKQILEKEGRLPDYIVACVGGGSNAAGIFYPFIDSGVKLIGVEAGGEGLETGKHAASLLKGKIGYLHGSKTFVLQDDWGQVQVTHSVSAGLDYSGVGPEHAYWRETGKVLYDAVTDEEALDAFIELSRLEGIIPALESSHALAYLKKINIKGKVVVVNLSGRGDKDLESVLNHPYVRERIRLE"
+device: "cuda"
+num_workers: 0 # Set to 0 to avoid CUDA shared tensor issues
+output_dir: "/scratch/gpfs/rj3023/guangxue/outputs/esm2_experiments"
+
+# --- Model Configuration (ESM2Effect) ---
+model:
+  input_dim: 480
+  hidden_dim: 768
+  dropout_rate: 0.3
+  num_heads: 12
+  # --- Ablation Experiment Switches ---
+  use_cnn: True
+  use_attention: True
+  use_cross_attention: True
+  use_mutation_context: True
+  debug_attention: False
+
+# --- Training Configuration ---
+training:
+  batch_size: 8
+  epochs_per_iteration: 20 # Number of training epochs within each ReST iteration
+  lr: 0.0001
+  criterion: "MSELoss"
+  use_huber_loss: False
+  gradient_clip_threshold: 10.0
+  confidence_threshold: 0.3
+  early_stopping_patience: 8
+
+# --- ReST Self-training Configuration ---
+rest:
+  num_iterations: 6
+  top_k_ratio: 0.25 # Select top 25% of training set as reward samples
+  keep_low_k: 50
+  blend_ratio: 0.2
+  stratify_sampling: True
+  lr_decay_factor: 0.8
+  lr_lower_bound: 0.00001
+  freeze_backbone: False
