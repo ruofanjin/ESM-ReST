@@ -1,6 +1,7 @@
 # ESM-ReST: Protein Fitness Prediction Model
 
 This project uses ESM-2 embeddings and a ReST-based self-training framework to predict protein mutant fitness.
+![ESM-ReST 流程图](esm-rest.png)
 
 ## Project Structure
 
